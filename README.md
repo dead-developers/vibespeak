@@ -1,5 +1,12 @@
 # vibespeak
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/dead-developers/vibespeak?style=social)](https://github.com/dead-developers/vibespeak/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/dead-developers/vibespeak)](https://github.com/dead-developers/vibespeak/commits/main)
+[![Token savings](https://img.shields.io/badge/token_savings-61%25-brightgreen)](#how-much-does-it-save)
+[![For Claude Code](https://img.shields.io/badge/for-Claude_Code-D97757?logo=anthropic&logoColor=white)](https://claude.com/claude-code)
+[![Plain English](https://img.shields.io/badge/jargon-free-blue)](#what-it-does)
+
 A Claude Code skill that makes replies shorter **and** easier to understand.
 
 Think of it as a friendlier cousin of [caveman mode](https://github.com/JuliusBrussee/caveman): same idea (cut the filler, save tokens) but **also** swaps technical jargon for everyday words so you can actually follow along without a CS degree.
