@@ -15,5 +15,31 @@
     "plain-english",
     "non-technical",
     "eli5"
-  ]
+  ],
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/vibespeak-activate.js",
+            "timeout": 5,
+            "statusMessage": "Loading vibespeak mode..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/hooks/vibespeak-mode-tracker.js",
+            "timeout": 5,
+            "statusMessage": "Tracking vibespeak mode..."
+          }
+        ]
+      }
+    ]
+  }
 }
