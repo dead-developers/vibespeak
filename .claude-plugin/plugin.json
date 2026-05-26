@@ -1,0 +1,19 @@
+{
+  "name": "vibespeak",
+  "description": "Token-saving communication mode for non-technical users. Cuts filler AND swaps technical jargon for everyday words. ~61% fewer tokens than normal replies while staying easy to read.",
+  "author": {
+    "name": "dead-developers",
+    "url": "https://github.com/dead-developers"
+  },
+  "homepage": "https://github.com/dead-developers/vibespeak",
+  "repository": "https://github.com/dead-developers/vibespeak",
+  "license": "MIT",
+  "keywords": [
+    "productivity",
+    "communication",
+    "brevity",
+    "plain-english",
+    "non-technical",
+    "eli5"
+  ]
+}

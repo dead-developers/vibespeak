@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "vibespeak",
+  "description": "Token-saving communication mode that uses plain English instead of jargon. Like caveman mode but readable for non-programmers.",
+  "owner": {
+    "name": "dead-developers",
+    "url": "https://github.com/dead-developers"
+  },
+  "plugins": [
+    {
+      "name": "vibespeak",
+      "description": "Compressed replies in plain English. Cuts ~60% of tokens while swapping jargon for everyday words.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
