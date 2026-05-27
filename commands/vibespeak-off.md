@@ -1,8 +1,10 @@
 ---
-description: Turn off vibespeak mode and return to normal Claude replies
+description: Turn off vibespeak mode persistently — survives session restarts
 disable-model-invocation: false
 ---
 
-Deactivate vibespeak mode. Return to standard Claude communication style (full sentences, normal phrasing, no compression rules). The mode flag at `~/.claude/.vibespeak-active` should be cleared by the UserPromptSubmit hook automatically when this command fires.
+Turn off vibespeak persistently across sessions. Write `{"defaultMode": "off"}` to the vibespeak config file (`~/.config/vibespeak/config.json`, or `$XDG_CONFIG_HOME/vibespeak/config.json`, or `%APPDATA%\vibespeak\config.json` on Windows). Create the directory if missing. Merge into any existing JSON — preserve other fields.
 
-Confirm to the user briefly: "Vibespeak off. Back to normal mode."
+After writing, return to standard Claude communication style for the rest of this session AND every future session. The SessionStart hook reads `defaultMode` and skips activation when it's `"off"`.
+
+To re-enable: `/vibespeak normal` (or any non-off level), or delete the config file.

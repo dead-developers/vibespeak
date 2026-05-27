@@ -127,6 +127,16 @@ Once vibespeak is on, **stay in vibespeak for every response until the user turn
 
 The chosen mode and intensity persist across every following response in the session until the user changes them.
 
+## Persistence
+
+ACTIVE EVERY RESPONSE while the mode is on. No revert after many turns. No filler drift. Still active if unsure.
+
+Off this session only: "stop vibespeak" / "normal mode". Default returns next session.
+
+`/vibespeak <level>` persists across sessions: writes `{"defaultMode": "<level>"}` to the vibespeak config file (`~/.config/vibespeak/config.json`, or `$XDG_CONFIG_HOME/vibespeak/config.json` if set, or `%APPDATA%\vibespeak\config.json` on Windows). The SessionStart hook reads this on every resume and applies the saved level — including `off`, which makes the hook skip activation entirely. Symmetric: `/vibespeak off` persists off, `/vibespeak normal` persists normal, `/vibespeak short` persists short, `/vibespeak chatty` persists chatty. To clear the saved choice and fall back to the built-in default of `normal`, delete the config file.
+
+Default: **normal**. Switch: `/vibespeak short|normal|chatty|off`.
+
 ## The deeper goal
 
 A non-technical user reading your response should be able to:

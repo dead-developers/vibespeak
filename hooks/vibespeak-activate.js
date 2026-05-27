@@ -1,26 +1,37 @@
 #!/usr/bin/env node
 // vibespeak — Claude Code SessionStart activation hook
 //
-// Mirrors the caveman hook pattern:
-//   - Writes a flag file at ~/.claude/.vibespeak-active so a statusline
-//     script (or other tooling) can confirm vibespeak mode is loaded.
-//   - Emits a short ruleset reminder as SessionStart context so the
-//     active model sees the mode in its system reminders.
+// Reads the persisted default mode (env var > config file > built-in "normal").
+// When the saved mode is "off", emits a minimal "OK" and skips the activation
+// reminder — letting users persistently disable vibespeak across sessions.
+// Otherwise writes the flag file (~/.claude/.vibespeak-active) via the
+// symlink-safe helper and emits the active-mode reminder so the model sees
+// the active ruleset on every session start.
 //
-// Pure addition — if you don't wire it up, nothing changes.
+// Mirrors the persistence shape shipped for the sibling caveman plugin
+// (JuliusBrussee/caveman#450). See HANDOFF-persistence.md (deleted post-merge)
+// for the porting notes.
 
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { getDefaultMode, safeWriteFlag } = require('./vibespeak-config');
 
-const flagPath = path.join(os.homedir(), '.claude', '.vibespeak-active');
+const claudeDir = process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
+const flagPath = path.join(claudeDir, '.vibespeak-active');
 
-try {
-  fs.mkdirSync(path.dirname(flagPath), { recursive: true });
-  fs.writeFileSync(flagPath, 'normal');
-} catch (e) {
-  // Silent fail — flag is best-effort, don't block the hook
+const mode = getDefaultMode();
+
+// "off" mode — skip activation entirely.
+// Clear any leftover flag from a previous session so downstream consumers
+// (statusline, mode-tracker, per-turn reinforcement) see vibespeak as inactive.
+if (mode === 'off') {
+  try { fs.unlinkSync(flagPath); } catch (e) {}
+  process.stdout.write('OK');
+  process.exit(0);
 }
+
+safeWriteFlag(flagPath, mode);
 
 process.stdout.write(
   "VIBESPEAK MODE ACTIVE. Rules: Drop pleasantries/filler/hedging AND swap jargon for plain English. " +
