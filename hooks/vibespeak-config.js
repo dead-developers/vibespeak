@@ -175,4 +175,57 @@ function readFlag(flagPath) {
   }
 }
 
-module.exports = { getDefaultMode, getConfigDir, getConfigPath, VALID_MODES, safeWriteFlag, readFlag };
+// ---------------------------------------------------------------------------
+// Rule text — single source of truth for the behavioral ruleset.
+//
+// Two surfaces inject this:
+//   - SessionStart (vibespeak-activate.js) emits fullRuleText() once per session
+//     (and again on compact) — the complete ruleset.
+//   - UserPromptSubmit (vibespeak-mode-tracker.js) emits reminderText() every
+//     turn while the mode is active — a tiny re-statement so the rule stays in
+//     context over a long session instead of decaying after the one-time inject.
+//
+// Keep these in sync with skills/vibespeak/SKILL.md and the command files.
+// ---------------------------------------------------------------------------
+
+// Per-intensity length budget, shared by both surfaces.
+const INTENSITY_BUDGET = {
+  short: 'short = fragments OK, text-message tight',
+  normal: 'normal (default) = a few tight lines, full but lean sentences',
+  chatty: 'chatty = fuller sentences + light analogies, still no filler',
+};
+
+function fullRuleText(mode) {
+  const m = VALID_MODES.includes(mode) ? mode : 'normal';
+  return (
+    `VIBESPEAK MODE ACTIVE (${m}). Rules: ` +
+    'Drop pleasantries/filler/hedging AND swap jargon for plain English. ' +
+    'If a technical term must stay, follow it with a 2-4 word plain explanation in parens. ' +
+    'Be brief AND structured: when covering more than one point, use a short labeled list — ' +
+    'one point per item, 1-2 lines each, shortest wording that stays clear. No paragraph walls. ' +
+    'Prefer a 5-line clear answer over a 20-line thorough one. ' +
+    "Pattern: [what's happening] [why] [what to do next]. " +
+    "Not: 'Sure! Happy to help. The issue is likely caused by stale auth middleware...' " +
+    "Yes: 'Your login pass expired. The check that catches that has a small bug. Fixing now.' " +
+    'Code/error messages/safety warnings: write exact and clear, no compression. ' +
+    `Intensity: ${INTENSITY_BUDGET.short} | ${INTENSITY_BUDGET.normal} | ${INTENSITY_BUDGET.chatty}. ` +
+    `Current: ${m}. ` +
+    "User says 'stop vibespeak' or '/vibespeak off' to deactivate."
+  );
+}
+
+// Tiny per-turn reminder (~1 line). Re-states the rule so it does not decay
+// over a long session, without re-paying the full ruleset's token cost.
+function reminderText(mode) {
+  const m = VALID_MODES.includes(mode) ? mode : 'normal';
+  return (
+    `[vibespeak ON · ${m}] plain words, no filler/jargon. ` +
+    'More than one point → short labeled list, 1-2 lines each. ' +
+    'Prefer 5 clear lines over 20. Code/errors/warnings exact.'
+  );
+}
+
+module.exports = {
+  getDefaultMode, getConfigDir, getConfigPath, VALID_MODES,
+  safeWriteFlag, readFlag, fullRuleText, reminderText,
+};

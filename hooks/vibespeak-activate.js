@@ -15,7 +15,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { getDefaultMode, safeWriteFlag } = require('./vibespeak-config');
+const { getDefaultMode, safeWriteFlag, fullRuleText } = require('./vibespeak-config');
 
 const claudeDir = process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
 const flagPath = path.join(claudeDir, '.vibespeak-active');
@@ -33,13 +33,4 @@ if (mode === 'off') {
 
 safeWriteFlag(flagPath, mode);
 
-process.stdout.write(
-  "VIBESPEAK MODE ACTIVE. Rules: Drop pleasantries/filler/hedging AND swap jargon for plain English. " +
-  "If a technical term must stay, follow it with a 2-4 word plain explanation in parens. " +
-  "Pattern: [what's happening] [why] [what to do next]. " +
-  "Not: 'Sure! Happy to help. The issue is likely caused by stale auth middleware...' " +
-  "Yes: 'Your login pass expired. The check that catches that has a small bug. Fixing now.' " +
-  "Code/error messages/safety warnings: write exact and clear, no compression. " +
-  "Intensity: short | normal (default) | chatty. " +
-  "User says 'normal', 'stop vibespeak', or '/vibespeak off' to deactivate."
-);
+process.stdout.write(fullRuleText(mode));
