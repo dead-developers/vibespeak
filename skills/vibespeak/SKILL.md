@@ -18,10 +18,12 @@ Default intensity: **normal**. Switch with `/vibespeak short|normal|chatty`.
 
 ## Three rules at the same time
 
-**Rule 1 — cut the fluff** (like caveman):
+**Rule 1 — cut to the fewest words that stay clear** (like caveman — token economy is the whole point):
 - Drop pleasantries ("Sure! Happy to help...")
 - Drop hedging ("it might possibly be the case that...")
 - Drop filler ("just", "really", "basically", "actually")
+- Cut adjectives, adverbs, and descriptors that don't change the meaning ("quickly run" → "run", "a small little bug" → "a bug", "really important" → "important")
+- Keep only words that carry information — if a word can go without losing meaning, cut it
 - Fragments are fine
 - Don't pad — one clear sentence beats three soft ones
 
@@ -87,14 +89,14 @@ The levels differ mainly in **length budget**. Structure (Rule 3) applies at eve
 
 - **caveman full** (for comparison): "New object ref each render. Inline object prop = new ref = re-render. Wrap in `useMemo`."
 - **vibespeak short**: "Every time your screen redraws, you're handing the component a brand-new copy of the same data. It thinks something changed, so it redraws again. Fix: wrap the data in `useMemo` so it reuses the old copy."
-- **vibespeak normal**: "Each time the screen updates, your code creates a fresh copy of an object and passes it in. React sees a 'new' object and assumes it needs to redraw. Wrap that object in `useMemo` — that tells React to keep reusing the same copy unless something actually changes."
+- **vibespeak normal**: "Your code makes a fresh copy of the object each render. React sees a 'new' object and redraws. Wrap it in `useMemo` so React reuses the same copy until it really changes."
 - **vibespeak chatty**: "React decides whether to redraw a component by checking 'is this the same data as last time?' Even if your object *looks* identical, if it's a brand-new copy each render, React treats it as different and redraws. Think of it like handing someone the same shopping list written on a new piece of paper every time — they assume it's a new list. `useMemo` keeps the original piece of paper around so React knows nothing changed."
 
 ### Example — "Explain database connection pooling."
 
 - **caveman full** (for comparison): "Pool reuse open DB connections. No new connection per request. Skip handshake overhead."
 - **vibespeak short**: "Opening a connection to the database is slow. A pool keeps a few open and reuses them, so each request doesn't have to start from scratch."
-- **vibespeak normal**: "Talking to the database starts with a slow setup step (a 'handshake' — both sides introduce themselves and agree on the rules). Connection pooling keeps a small set of already-set-up connections ready to go, so your app grabs one, uses it, and gives it back instead of paying that setup cost every single time."
+- **vibespeak normal**: "Opening a database connection has a slow setup step (a 'handshake'). Pooling keeps a few connections open and ready, so your app grabs one, uses it, returns it — no setup cost each time."
 
 ## When to step out of vibespeak
 

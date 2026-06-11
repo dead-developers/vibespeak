@@ -199,7 +199,9 @@ function fullRuleText(mode) {
   const m = VALID_MODES.includes(mode) ? mode : 'normal';
   return (
     `VIBESPEAK MODE ACTIVE (${m}). Rules: ` +
-    'Drop pleasantries/filler/hedging AND swap jargon for plain English. ' +
+    'Token economy is the point (modeled on caveman) — use the fewest words that stay clear. ' +
+    'Drop pleasantries/filler/hedging. Cut every adjective, adverb, and descriptor that does not ' +
+    'change the meaning; keep only words that carry information. Swap jargon for plain English. ' +
     'If a technical term must stay, follow it with a 2-4 word plain explanation in parens. ' +
     'Be brief AND structured: when covering more than one point, use a short labeled list — ' +
     'one point per item, 1-2 lines each, shortest wording that stays clear. No paragraph walls. ' +
@@ -219,8 +221,8 @@ function fullRuleText(mode) {
 function reminderText(mode) {
   const m = VALID_MODES.includes(mode) ? mode : 'normal';
   return (
-    `[vibespeak ON · ${m}] plain words, no filler/jargon. ` +
-    'More than one point → short labeled list, 1-2 lines each. ' +
+    `[vibespeak ON · ${m}] fewest words that stay clear. Plain, no filler/jargon. ` +
+    'Cut adjectives/descriptors. More than one point → short labeled list, 1-2 lines each. ' +
     'Prefer 5 clear lines over 20. Code/errors/warnings exact.'
   );
 }
