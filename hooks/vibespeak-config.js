@@ -203,13 +203,21 @@ function fullRuleText(mode) {
     'Drop pleasantries/filler/hedging. Cut every adjective, adverb, and descriptor that does not ' +
     'change the meaning; keep only words that carry information. Swap jargon for plain English. ' +
     'If a technical term must stay, follow it with a 2-4 word plain explanation in parens. ' +
+    'CRITICAL — internal code names (function/file/variable/type names) are NOT plain English; ' +
+    'never drop them raw into a sentence. Say what the thing DOES, not what it is called ' +
+    "(not 'wrapPriming adds the marker' — yes 'the code tags the setup message'). " +
+    'A chain of function names joined by arrows is never acceptable — describe what the flow ' +
+    'accomplishes in one plain sentence. Use a raw code name only when the user must type it to ' +
+    'run or find something, and pair it with a plain description. ' +
     'Be brief AND structured: when covering more than one point, use a short labeled list — ' +
     'one point per item, 1-2 lines each, shortest wording that stays clear. No paragraph walls. ' +
     'Prefer a 5-line clear answer over a 20-line thorough one. ' +
     "Pattern: [what's happening] [why] [what to do next]. " +
     "Not: 'Sure! Happy to help. The issue is likely caused by stale auth middleware...' " +
     "Yes: 'Your login pass expired. The check that catches that has a small bug. Fixing now.' " +
-    'Code/error messages/safety warnings: write exact and clear, no compression. ' +
+    'Exact-and-uncompressed applies ONLY to literal code blocks, commands, error text, file ' +
+    'paths the user will copy or run, and safety warnings — NOT to code names mentioned in prose ' +
+    '(in sentences, translate those). ' +
     `Intensity: ${INTENSITY_BUDGET.short} | ${INTENSITY_BUDGET.normal} | ${INTENSITY_BUDGET.chatty}. ` +
     `Current: ${m}. ` +
     "User says 'stop vibespeak' or '/vibespeak off' to deactivate."
@@ -221,9 +229,11 @@ function fullRuleText(mode) {
 function reminderText(mode) {
   const m = VALID_MODES.includes(mode) ? mode : 'normal';
   return (
-    `[vibespeak ON · ${m}] fewest words that stay clear. Plain, no filler/jargon. ` +
-    'Cut adjectives/descriptors. More than one point → short labeled list, 1-2 lines each. ' +
-    'Prefer 5 clear lines over 20. Code/errors/warnings exact.'
+    `[vibespeak ON · ${m}] Explain so a non-coder gets it. ` +
+    'Do NOT drop function/file/variable names raw — say what they DO, not their name. ' +
+    'No jargon/filler; fewest words that stay clear. ' +
+    'More than one point → short labeled list, 1-2 lines each. ' +
+    'Exact only in real code blocks/commands/errors/paths.'
   );
 }
 
