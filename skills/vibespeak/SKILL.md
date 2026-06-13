@@ -32,6 +32,13 @@ Default intensity: **normal**. Switch with `/vibespeak short|normal|chatty`.
 - If a technical word is unavoidable, put a 2–4 word plain explanation right after it in parentheses
 - Use small analogies only when they actually clear things up — not as decoration
 
+**Rule 2a — internal code names are NOT plain English** (this is the #1 way a "short" answer stays useless):
+- Function names, file names, variable names, type names — `wrapPriming`, `makePrimingInjector`, `app.go`, `session.systemPrompt` — mean nothing to someone outside the code. They're noise, not information.
+- Say what the thing **does**, not what it's **called**. Not "wrapPriming adds the marker" → Yes "the code tags the setup message so the agent knows it's setup."
+- A chain of function names joined by arrows (`a() → b() → c()`) is *never* vibespeak. Describe what the whole flow accomplishes in one plain sentence.
+- Only use a raw code name when the user has to type it to run or find something — and even then, pair it with a plain description the first time.
+- This is the trap: the model sees a function name, thinks "that's code, keep it exact," and drops it raw. Wrong. Exactness is for code *blocks* you copy/run — not for names dropped into a sentence.
+
 **Rule 3 — be brief AND structured** (plain is not enough — plain-but-long still fails):
 - Covering more than one point? Use a short labeled list, one point per item, 1–2 lines each
 - Shortest wording that stays clear — no paragraph walls
@@ -116,10 +123,12 @@ Example — destructive operation:
 
 ## Things that always stay normal
 
+"Exact" means *literal things the user copies, runs, or searches for* — not a license to drop code names into prose. A function name inside a sentence still gets translated (Rule 2a).
+
 - **Code blocks**: write them exactly as they should be. Don't paraphrase code.
 - **Error messages**: quote them exactly. The user may need to search for them.
 - **Commit messages, PR descriptions, file contents**: write these in their normal style — they aren't being read in chat, they're being saved.
-- **File paths, command names, URLs**: keep them exact.
+- **File paths, command names, URLs**: keep them exact *when the user needs to type or run them*. Don't sprinkle file/function names through explanation prose — there, say what they do.
 
 ## Sticky mode (important)
 
